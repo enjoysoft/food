@@ -1,8 +1,10 @@
 package com.enjoysoft.scala
 
 import java.nio.charset.Charset
+import java.time.format.TextStyle
 import java.time.temporal.ChronoUnit
 import java.time.{LocalDate, Period}
+import java.util.Locale
 
 
 final case class Food(name: String, meat: Boolean, add: Boolean) {
@@ -39,7 +41,7 @@ object Main extends App {
 
   val Days = 200
   val Week = 7
-  val Birthday = LocalDate.of(2017, 2, 18)
+  val Birthday = LocalDate.of(2017, 2, 16)
 
   def rotate(list: List[Food]): List[Food] = {
     val head :: tail = list
@@ -48,7 +50,8 @@ object Main extends App {
 
   val outputs = for (i <- 1 to Days) yield {
 
-    val date = LocalDate.now().plusDays(i)
+    val date = LocalDate.of(2017, 10, 7).plusDays(i)
+    val week = date.getDayOfWeek.getDisplayName(TextStyle.FULL, Locale.CHINESE)
     val period = Period.between(Birthday, date)
     val months = period.getMonths
     val days = period.getDays
@@ -72,7 +75,7 @@ object Main extends App {
     val meat = meats.head
     meats = rotate(meats)
 
-    val foo = s"$date,${months}月${days}天,$d,${veg1.name},${veg2.name},${meat.name}"
+    val foo = s"$date,$week,${months}月${days}天,$d,${veg1.name},${veg2.name},${meat.name}"
     println(foo)
     foo
   }
